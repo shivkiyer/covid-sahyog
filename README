@@ -1,0 +1,24 @@
+How to use this project.
+
+Requirements (check out the requirements.txt file):
+Django - 3.2.2
+mysqlclient - 2.0.3
+psycopg2 - 2.8.6
+
+Currently, the database used is a Postgresql server.
+If you wish to try the project without a Postgresql server:
+ - Comment out lines in base.py and development.py with DATABASES
+ - Uncomment the default Sqlite DATABASE just above the postgres connection definition
+
+Check out the env-sample.py file. This contains example variables that need to be set.
+Copy this file as env.py file and provide variables corresponding to you local env.
+
+There are three settings - base, development and production.
+In your local env, set the DJANGO_SETTINGS_MODULE to be either of these with:
+export DJANGO_SETTINGS_MODULE=covidapp.settings.development (in linux)
+set DJANGO_SETTINGS_MODULE=covidapp.settings.development (in windows)
+
+To set up the project:
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
