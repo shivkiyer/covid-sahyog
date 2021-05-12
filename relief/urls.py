@@ -7,4 +7,5 @@ urlpatterns = [
     path('request-help', views.request_help, name='request_help'),
     path('offer-help', views.offer_help, name='offer_help'),
     path('about-us', views.about_us, name='about_us'),
+    path('populate-db', views.populate_db, name='populate_db'),
 ]

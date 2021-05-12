@@ -2,8 +2,41 @@
 
 {% block content %}
 
-  <div class="container">
-    <h1>Landing page</h1>
+  <div class="container my-5">
+
+    <form class="form-inline my-3 my-lg-0" style="display:inherit;">
+      <div class="row my-4">
+        <div class="col-8 col-md-5">
+          <input class="form-control mr-sm-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search">
+        </div>
+        <div class="col-4 col-md-1">
+          <button class="btn btn-outline-success my-sm-0"
+                  type="submit">
+                    Search
+          </button>
+        </div>
+      </div>
+    </form>
+
+    {% if list_of_states %}
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <ul class="list-group">
+            {% for state_item in list_of_states %}
+              <a href="#" class="list-group-item list-group-item-action">
+                {{state_item}}
+              </a>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+
+
+
   </div>
-  
+
 {% endblock %}
