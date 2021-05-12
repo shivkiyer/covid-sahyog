@@ -11,7 +11,16 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from .env import *
+try:
+    from .env import *
+except:
+    SECRET_KEY = "django-insecure-defaultsecretkeytoavoidinitial$*j^q@@g8mstartupmess"
+    HOSTS = ['localhost']
+    DB_NAME = 'somedb'
+    DB_HOST = 'somehost'
+    DB_PORT = 'someport'
+    DB_USER = 'someuser'
+    DB_PASSWORD = 'somepass'
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
