@@ -17,7 +17,7 @@ def read_states():
     return state_list
 
 
-def create_help_request_form(request=None):
+def create_help_form(request=None):
     """
     Creates either a blank help request form or a form with errors.
     Returns - context data with list of state, choices and RequestHelpForm

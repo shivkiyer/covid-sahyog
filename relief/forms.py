@@ -32,6 +32,14 @@ class RequestHelpForm(forms.ModelForm):
                 required=False,
                 widget=forms.URLInput(attrs={'class': 'form-control'})
             )
+    start_date = forms.DateTimeField(
+                required=False,
+                widget=forms.DateTimeInput(attrs={'class': 'form-control'})
+            )
+    end_date = forms.DateTimeField(
+                required=False,
+                widget=forms.DateTimeInput(attrs={'class': 'form-control'})
+            )
     class Meta:
         model = RequestHelp
         fields = [
@@ -45,5 +53,8 @@ class RequestHelpForm(forms.ModelForm):
             'description',
             'address',
             'verified',
-            'assistance_url'
+            'start_date',
+            'end_date',
+            'assistance_url',
+            'is_disabled'
         ]

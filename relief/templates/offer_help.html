@@ -3,7 +3,49 @@
 {% block content %}
 
   <div class="container">
-    <h1>Offer help form comes here</h1>
+
+    <form class="my-5"
+          action="{% url 'submit_help_request' %}"
+          method="POST">
+
+      {% csrf_token %}
+
+      <h3 class="my-3">Please fill this form:</h3>
+
+      {% if request_form.errors %}
+        <p>The form has errors. Please check the messages below fields.</p>
+      {% endif %}
+
+      {% include 'base_help_form_required.html' %}
+
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>Start date:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{request_form.start_date}}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>End date:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{request_form.end_date}}
+        </div>
+      </div>
+
+      {% include 'base_help_form_optional.html' %}
+
+      {% include 'base_help_form_admin.html' %}
+
+      <input type="submit"
+              class="btn btn-primary"
+              value="Submit">
+
+    </form>
+
   </div>
 
 {% endblock %}

@@ -14,12 +14,13 @@ def launch_app(request):
 
 
 def request_help(request):
-    context = utils.create_help_request_form()
+    context = utils.create_help_form()
     return render(request, 'request_help.html', context)
 
 
 def offer_help(request):
-    return render(request, 'offer_help.html', {})
+    context = utils.create_help_form()
+    return render(request, 'offer_help.html', context)
 
 
 def about_us(request):
@@ -31,7 +32,7 @@ def submit_help_request(request):
     if request_form.is_valid():
         new_help_request = request_form.save()
     else:
-        context = utils.create_help_request_form(request)
+        context = utils.create_help_form(request)
         return render(request, 'request_help.html', context)
 
     return redirect('confirm_submission')

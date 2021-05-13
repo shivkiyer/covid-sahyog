@@ -1,0 +1,28 @@
+{% if user.is_authenticated %}
+  <div class="row mb-3">
+    <div class="col-12 col-md-2">
+      <label>Donation Link:</label>
+    </div>
+    <div class="col-12 col-md-6">
+      {{request_form.assistance_url}}
+    </div>
+  </div>
+  
+  <div class="row mb-3">
+    <div class="col-12 col-md-2">
+      <label>Verify:</label>
+    </div>
+    <div class="col-12 col-md-6">
+      {{request_form.verified}}
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-12 col-md-2">
+      <label>Disable:</label>
+    </div>
+    <div class="col-12 col-md-6">
+      {{request_form.is_disabled}}
+    </div>
+  </div>
+{% endif %}
