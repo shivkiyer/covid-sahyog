@@ -2,8 +2,137 @@
 
 {% block content %}
 
+  <style>
+    select: {
+      width: 100%;
+    }
+  </style>
+
   <div class="container">
-    <h1>Request help form comes here</h1>
+    <form class="my-5"
+          action="{% url 'submit_help_request' %}"
+          method="POST">
+
+      {% csrf_token %}
+
+      <h3 class="my-3">Please fill this form:</h3>
+
+      {% if request_form.errors %}
+        <p>The form has errors. Please check the messages below fields.</p>
+      {% endif %}
+
+      <h5 class="my-3">Required fields</h5>
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>Name:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{request_form.display_name}}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>State:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          <select class="form-control" name="state">
+            {% for state_item in list_of_states %}
+              <option value="{{state_item.id}}">{{state_item.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>City:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{request_form.city}}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>Mobile:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{request_form.mobile_number}}
+        </div>
+      </div>
+      {% if request_form.mobile_number.errors %}
+        {% for error in request_form.mobile_number.errors %}
+          <p><strong>{{error}}</strong></p>
+        {% endfor %}
+      {% endif %}
+
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>Help requested:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          <select class="form-control" name="help_needed">
+            {% for choice_item in help_choices %}
+              <option value="{{choice_item.0}}">{{choice_item.1}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>Description:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{request_form.description}}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>Address:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{request_form.address}}
+        </div>
+      </div>
+
+      <h5 class="my-3">Optional fields</h5>
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>Email:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{request_form.email}}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>Twitter:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{request_form.twitter_handle}}
+        </div>
+      </div>
+
+      {% if user.is_authenticated %}
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>Donation Link:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{request_form.assistance_url}}
+        </div>
+      </div>
+      {% endif %}
+
+      <input type="submit"
+              class="btn btn-primary"
+              value="Submit">
+
+    </form>
   </div>
 
 {% endblock %}

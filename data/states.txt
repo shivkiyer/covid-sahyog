@@ -1,35 +1,34 @@
-Jammu & Kashmir
-Himachal Pradesh
-Punjab
-Chandigarh
-Uttarakhand
-Haryana
-NCT of Delhi
+Delhi
 Rajasthan
 Uttar Pradesh
-Sikkim
-Arunachal Pradesh
-Nagaland
 Bihar
-Manipur
-Mizoram
-Tripura
-Meghalaya
-Assam
+Jammu and Kashmir
+Himachal Pradesh
+Punjab
+Uttarakhand
+Haryana
 West Bengal
 Jharkhand
 Orissa
 Madhya Pradesh
 Chhattisgarh
 Gujarat
-Daman & Diu
 Maharashtra
-Dadra & Nagar Haveli
 Karnataka
-Lakshadweep
 Kerala
 Andhra Pradesh
 Tamil Nadu
-Andaman & Nicobar Islands
+Chandigarh
+Sikkim
+Arunachal Pradesh
+Nagaland
+Manipur
+Mizoram
+Tripura
+Meghalaya
+Assam
+Daman and Diu
+Dadra and Nagar Haveli
+Lakshadweep
+Andaman and Nicobar Islands
 Puducherry
-

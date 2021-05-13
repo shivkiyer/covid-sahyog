@@ -8,4 +8,7 @@ urlpatterns = [
     path('offer-help', views.offer_help, name='offer_help'),
     path('about-us', views.about_us, name='about_us'),
     path('populate-db', views.populate_db, name='populate_db'),
+    path('submit-help-request', views.submit_help_request, name='submit_help_request'),
+    path('confirm-submission', views.confirm_help, name='confirm_submission'),
+    path('state/<slug:slug>', views.state_list, name='state_list')
 ]

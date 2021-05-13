@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="container my-5">
+
+    <h1>{{state.name}}</h1>
+
+    {% for help_item in help_in_state %}
+
+      <div class="card my-3">
+        <div class="card-body">
+          <h5 class="card-title">{{help_item.display_name}}</h5>
+          <p class="card-text">Mobile: {{help_item.mobile_number}}
+            {% if help_item.email %}, Email: {{help_item.email}}{% endif %}
+            {% if help_item.twitter_handle %}, Twitter: {{help_item.twitter_handle}}{% endif %}
+          </p>
+          <p class="card-text">State: {{help_item.state}}, City: {{help_item.city}}</p>
+          <p class="card-text">{{help_item.description|linebreaks}}</p>
+          <p class="card-text">{{help_item.address|linebreaks}}</p>
+          <p class="card-text">Verified:
+            {% if help_item.verified %}
+              Verified
+            {% else %}
+              Not verified
+            {% endif %}
+          </p>
+        </div>
+      </div>
+
+    {% empty %}
+      <div class="row mt-5">
+        <div class="col-12">
+          <h3>No requests or offers found.</h3>
+        </div>
+      </div>
+    {% endfor %}
+
+  </div>
+
+{% endblock %}
