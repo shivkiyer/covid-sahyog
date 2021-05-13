@@ -25,7 +25,7 @@ class RequestHelp(models.Model):
     ]
     display_name    = models.CharField(max_length=200)
     twitter_handle  = models.CharField(max_length=200, blank=True, null=True)
-    mobile_number   = models.IntegerField(blank=True, null=True)
+    mobile_number   = models.BigIntegerField(blank=True, null=True)
     email           = models.EmailField(blank=True, null=True)
     description     = models.TextField()
     help_needed     = models.CharField(
