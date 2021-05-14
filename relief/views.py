@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from datetime import datetime
 
 from . import utils
 from .models import State, RequestHelp
@@ -20,6 +21,14 @@ def request_help(request):
 
 def offer_help(request):
     context = utils.create_help_form()
+    days = list(range(1, 32))
+    months = list(range(1, 13))
+    years = [2021, 2022]
+    context['date_options'] = {
+        'days': days,
+        'months': months,
+        'years': years
+    }
     return render(request, 'offer_help.html', context)
 
 
@@ -30,7 +39,27 @@ def about_us(request):
 def submit_help_request(request):
     request_form = RequestHelpForm(request.POST)
     if request_form.is_valid():
-        new_help_request = request_form.save()
+        new_help_request = request_form.save(commit=False)
+        start_day = request.POST.get('start_day')
+        start_month = request.POST.get('start_month')
+        start_year = request.POST.get('start_year')
+        end_day = request.POST.get('end_day')
+        end_month = request.POST.get('end_month')
+        end_year = request.POST.get('end_year')
+        start_date = datetime(
+                int(start_year),
+                int(start_month),
+                int(start_day)
+            )
+        end_date = datetime(
+                int(end_year),
+                int(end_month),
+                int(end_day)
+            )
+        new_help_request.start_date = start_date
+        new_help_request.end_date = end_date
+        new_help_request.is_help_offered = True
+        new_help_request.save()
     else:
         context = utils.create_help_form(request)
         return render(request, 'request_help.html', context)

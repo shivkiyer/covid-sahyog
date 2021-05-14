@@ -16,7 +16,12 @@
             {% if help_item.twitter_handle %}, Twitter: {{help_item.twitter_handle}}{% endif %}
           </p>
           <p class="card-text">State: {{help_item.state}}, City: {{help_item.city}}</p>
-          <p class="card-text">Help needed: {{help_item.help_needed|title}}</p>
+          <p class="card-text">Help
+            {% if help_item.is_help_offered %}
+              offered
+            {% else %}
+              needed
+            {% endif %}: {{help_item.help_needed|title}}</p>
           <p class="card-text">{{help_item.description|linebreaks}}</p>
           <p class="card-text">{{help_item.address|linebreaks}}</p>
           <p class="card-text">Verified:

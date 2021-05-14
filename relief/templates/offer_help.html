@@ -18,21 +18,95 @@
 
       {% include 'base_help_form_required.html' %}
 
-      <div class="row mb-3">
+      <div class="row">
         <div class="col-12 col-md-2">
           <label>Start date:</label>
         </div>
-        <div class="col-12 col-md-6">
-          {{request_form.start_date}}
+
+        <div class="col-3 col-md-2">
+          <select class="form-control"
+                  id="start_day"
+                  name="start_day">
+            {% for day in date_options.days %}
+              <option value="{{day}}">{{day}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-3 col-md-2">
+          <select class="form-control"
+                  id="start_month"
+                  name="start_month">
+            {% for month in date_options.months %}
+              <option value="{{month}}">{{month}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-3 col-md-2">
+          <select class="form-control"
+                  id="start_year"
+                  name="start_year">
+            {% for year in date_options.years %}
+              <option value="{{year}}">{{year}}</option>
+            {% endfor %}
+          </select>
         </div>
       </div>
 
       <div class="row mb-3">
+        <div class="offset-md-2 col-3 col-md-2 text-center">
+          Day
+        </div>
+        <div class="col-3 col-md-2 text-center">
+          Month
+        </div>
+        <div class="col-3 col-md-2 text-center">
+          Year
+        </div>
+      </div>
+
+      <div class="row">
         <div class="col-12 col-md-2">
           <label>End date:</label>
         </div>
-        <div class="col-12 col-md-6">
-          {{request_form.end_date}}
+
+        <div class="col-3 col-md-2">
+          <select class="form-control"
+                  id="end_day"
+                  name="end_day">
+            {% for day in date_options.days %}
+              <option value="{{day}}">{{day}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-3 col-md-2">
+          <select class="form-control"
+                  id="end_month"
+                  name="end_month">
+            {% for month in date_options.months %}
+              <option value="{{month}}">{{month}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-3 col-md-2">
+          <select class="form-control"
+                  id="end_year"
+                  name="end_year">
+            {% for year in date_options.years %}
+              <option value="{{year}}">{{year}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="offset-md-2 col-3 col-md-2 text-center">
+          Day
+        </div>
+        <div class="col-3 col-md-2 text-center">
+          Month
+        </div>
+        <div class="col-3 col-md-2 text-center">
+          Year
         </div>
       </div>
 
@@ -41,11 +115,96 @@
       {% include 'base_help_form_admin.html' %}
 
       <input type="submit"
+              id="submit_request"
               class="btn btn-primary"
               value="Submit">
 
     </form>
 
   </div>
+
+  <script type="text/javascript">
+
+    var startDate = document.querySelector('#start_day');
+    var startMonth = document.querySelector('#start_month');
+    var startYear = document.querySelector('#start_year');
+
+    var endDate = document.querySelector('#end_day');
+    var endMonth = document.querySelector('#end_month');
+    var endYear = document.querySelector('#end_year');
+
+    var submitBtn = document.querySelector('#submit_request');
+
+    var todayDate = new Date();
+    var todayDay = todayDate.getDate();
+    var todayMonth = todayDate.getMonth() + 1;
+    var todayFullYear = todayDate.getFullYear();
+
+    startDate.value = todayDay;
+    startMonth.value = todayMonth;
+    startYear.value = todayFullYear;
+    endDate.value = todayDay;
+    endMonth.value = todayMonth;
+    endYear.value = todayFullYear;
+
+    function highlightDates() {
+      startDate.style.border = '1px solid red';
+      startMonth.style.border = '1px solid red';
+      startYear.style.border = '1px solid red';
+      endDate.style.border = '1px solid red';
+      endMonth.style.border = '1px solid red';
+      endYear.style.border = '1px solid red';
+    }
+
+    function normalizeDates() {
+      startDate.style.border = '1px solid #ced4da';
+      startMonth.style.border = '1px solid #ced4da';
+      startYear.style.border = '1px solid #ced4da';
+      endDate.style.border = '1px solid #ced4da';
+      endMonth.style.border = '1px solid #ced4da';
+      endYear.style.border = '1px solid #ced4da';
+    }
+
+    function checkDates() {
+      var chosenStartDate = new Date(
+          startYear.value,
+          +startMonth.value - 1,
+          startDate.value
+      );
+      var chosenEndDate = new Date(
+          endYear.value,
+          +endMonth.value - 1,
+          endDate.value
+      );
+      if ((chosenStartDate > chosenEndDate ) || (chosenStartDate < todayDate) || (chosenEndDate < todayDate)) {
+        submitBtn.disabled = true;
+        highlightDates();
+      } else {
+        submitBtn.disabled = false;
+        normalizeDates();
+      }
+    }
+
+    startDate.addEventListener('change', function(event) {
+      checkDates();
+    });
+    startMonth.addEventListener('change', function(event) {
+      checkDates();
+    });
+    startYear.addEventListener('change', function(event) {
+      checkDates();
+    });
+
+    endDate.addEventListener('change', function(event) {
+      checkDates();
+    });
+    endMonth.addEventListener('change', function(event) {
+      checkDates();
+    });
+    endYear.addEventListener('change', function(event) {
+      checkDates();
+    });
+
+  </script>
 
 {% endblock %}
