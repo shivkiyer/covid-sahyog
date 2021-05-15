@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.utils.html import escape
+
 from datetime import datetime
 
 from . import utils
@@ -78,6 +80,38 @@ def state_list(request, slug):
     help_in_state = state_chosen.requesthelp_set.all().order_by('-created_on')
     context['help_in_state'] = help_in_state
     return render(request, 'state_list.html', context)
+
+
+def edit_help(request, help_id):
+    context = {}
+    help_obj = RequestHelp.objects.get(id=help_id)
+    help_form = RequestHelpForm(instance=help_obj)
+    context['help'] = help_obj
+    context['request_form'] = help_form
+    return render(request, 'help_validation.html', context)
+
+
+def validate_help(request, help_id):
+    context = {}
+    help_obj = RequestHelp.objects.get(id=help_id)
+    if 'assistance_url' in request.POST:
+        assistance_url = request.POST.get('assistance_url')
+        help_obj.assistance_url = escape(assistance_url)
+    if 'verified' in request.POST:
+        if request.POST.get('verified') == 'on':
+            help_obj.verified = True
+    else:
+        help_obj.verified = False
+    if 'is_disabled' in request.POST:
+        if request.POST.get('is_disabled') == 'on':
+            help_obj.is_disabled = True
+    else:
+        help_obj.is_disabled = False
+
+    help_obj.save()
+    context['help_id'] = help_obj.id
+
+    return render(request, 'validation_confirmation.html', context)
 
 
 # Method to create states.

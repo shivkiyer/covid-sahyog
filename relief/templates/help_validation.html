@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <form class="my-5"
+        action="/validate-help/{{help.id}}"
+        method="POST">
+
+    {% csrf_token %}
+
+    <h3 class="my-3">These are the details of help needed/offered:</h3>
+
+    <h5 class="my-3">Required fields</h5>
+
+    <div class="row mb-3">
+      <div class="col-12 col-md-2">
+        <label>Name:</label>
+      </div>
+      <div class="col-12 col-md-6">
+        {{help.display_name}}
+        {% if help.is_help_offered %}
+          <span> is offering help</span>
+        {% else %}
+          <span> needs help</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-md-2">
+        <label>Mobile number:</label>
+      </div>
+      <div class="col-12 col-md-6">
+        {{help.mobile_number}}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-md-2">
+        <label>Twitter:</label>
+      </div>
+      <div class="col-12 col-md-6">
+        {{help.twitter_handle}}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-md-2">
+        <label>Email:</label>
+      </div>
+      <div class="col-12 col-md-6">
+        {{help.email}}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-md-2">
+        <label>State:</label>
+      </div>
+      <div class="col-12 col-md-6">
+        {{help.state.name}}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-md-2">
+        <label>City:</label>
+      </div>
+      <div class="col-12 col-md-6">
+        {{help.city}}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-md-2">
+        <label>Address:</label>
+      </div>
+      <div class="col-12 col-md-6">
+        {{help.address}}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-md-2">
+        <label>Description:</label>
+      </div>
+      <div class="col-12 col-md-6">
+        {{help.description}}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-md-2">
+        <label>Help type:</label>
+      </div>
+      <div class="col-12 col-md-6">
+        {{help.help_needed}}
+      </div>
+    </div>
+
+    {% include 'base_help_form_admin.html' %}
+
+    <input type="submit"
+            class="btn btn-primary"
+            value="Submit">
+
+  </form>
+</div>
+
+{% endblock %}
