@@ -12,5 +12,7 @@ urlpatterns = [
     path('confirm-submission', views.confirm_help, name='confirm_submission'),
     path('state/<slug:slug>', views.state_list, name='state_list'),
     path('edit-help/<int:help_id>', views.edit_help, name='edit-help'),
-    path('validate-help/<int:help_id>', views.validate_help, name='validate-help')
+    path('validate-help/<int:help_id>', views.validate_help, name='validate_help'),
+    path('logout', views.logout_user, name='logout_user'),
+    path('search', views.search_query, name='search_query')
 ]

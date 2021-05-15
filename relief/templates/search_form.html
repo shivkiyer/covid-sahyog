@@ -1,0 +1,22 @@
+<form class="form-inline my-3 my-lg-0"
+        style="display:inherit;"
+        action="{% url 'search_query' %}">
+  <input type="hidden"
+          name="state_id"
+          value="{{state.id}}">
+  <div class="row my-4">
+    <div class="col-8 col-md-5">
+      <input class="form-control mr-sm-2"
+              type="search"
+              name="search"
+              placeholder="Search"
+              aria-label="Search">
+    </div>
+    <div class="col-4 col-md-1">
+      <button class="btn btn-outline-success my-sm-0"
+              type="submit">
+                Search
+      </button>
+    </div>
+  </div>
+</form>

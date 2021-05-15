@@ -4,11 +4,14 @@
 
   <div class="container my-5">
 
-    <form class="form-inline my-3 my-lg-0" style="display:inherit;">
+    <!-- <form class="form-inline my-3 my-lg-0"
+            style="display:inherit;"
+            action="{% url 'search_query' %}">
       <div class="row my-4">
         <div class="col-8 col-md-5">
           <input class="form-control mr-sm-2"
                   type="search"
+                  name="search"
                   placeholder="Search"
                   aria-label="Search">
         </div>
@@ -19,7 +22,9 @@
           </button>
         </div>
       </div>
-    </form>
+    </form> -->
+
+    {% include 'search_form.html' %}
 
     {% if list_of_states %}
       <div class="row">

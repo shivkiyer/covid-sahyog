@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils.html import escape
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth import logout
+from django.db.models import Q
 
 from datetime import datetime
 
@@ -81,7 +84,7 @@ def state_list(request, slug):
     context['help_in_state'] = help_in_state
     return render(request, 'state_list.html', context)
 
-
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def edit_help(request, help_id):
     context = {}
     help_obj = RequestHelp.objects.get(id=help_id)
@@ -90,7 +93,7 @@ def edit_help(request, help_id):
     context['request_form'] = help_form
     return render(request, 'help_validation.html', context)
 
-
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def validate_help(request, help_id):
     context = {}
     help_obj = RequestHelp.objects.get(id=help_id)
@@ -112,6 +115,33 @@ def validate_help(request, help_id):
     context['help_id'] = help_obj.id
 
     return render(request, 'validation_confirmation.html', context)
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('home_page')
+
+
+def search_query(request):
+    context = {}
+    search_query = request.GET.get('search')
+    search_logic = Q(help_needed__icontains=search_query)
+    search_logic = search_logic | Q(display_name__icontains=search_query)
+    search_logic = search_logic | Q(twitter_handle__icontains=search_query)
+    search_logic = search_logic | Q(mobile_number__icontains=search_query)
+    search_logic = search_logic | Q(email__icontains=search_query)
+    search_logic = search_logic | Q(description__icontains=search_query)
+    search_logic = search_logic | Q(address__icontains=search_query)
+    search_logic = search_logic | Q(city__icontains=search_query)
+    state = request.GET.get('state_id', '')
+    if state:
+        search_items = RequestHelp.objects.filter(
+            state=state
+        ).filter(search_logic)
+    else:
+        search_items = RequestHelp.objects.filter(search_logic)
+    context['help_in_state'] = search_items
+    return render(request, 'state_list.html', context)
 
 
 # Method to create states.
