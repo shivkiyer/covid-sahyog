@@ -18,98 +18,6 @@
 
       {% include 'base_help_form_required.html' %}
 
-      <div class="row mb-3">
-        <div class="col-12 col-md-2">
-          <label>Start date:</label>
-        </div>
-
-        <div class="col-3 col-md-2">
-          <select class="form-control"
-                  id="start_day"
-                  name="start_day">
-            {% for day in date_options.days %}
-              <option value="{{day}}">{{day}}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="col-3 col-md-2">
-          <select class="form-control"
-                  id="start_month"
-                  name="start_month">
-            {% for month in date_options.months %}
-              <option value="{{month}}">{{month}}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="col-3 col-md-2">
-          <select class="form-control"
-                  id="start_year"
-                  name="start_year">
-            {% for year in date_options.years %}
-              <option value="{{year}}">{{year}}</option>
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-
-      <div class="row mb-3">
-        <div class="offset-md-2 col-3 col-md-2 text-center">
-          Day
-        </div>
-        <div class="col-3 col-md-2 text-center">
-          Month
-        </div>
-        <div class="col-3 col-md-2 text-center">
-          Year
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12 col-md-2">
-          <label>End date:</label>
-        </div>
-
-        <div class="col-3 col-md-2">
-          <select class="form-control"
-                  id="end_day"
-                  name="end_day">
-            {% for day in date_options.days %}
-              <option value="{{day}}">{{day}}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="col-3 col-md-2">
-          <select class="form-control"
-                  id="end_month"
-                  name="end_month">
-            {% for month in date_options.months %}
-              <option value="{{month}}">{{month}}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="col-3 col-md-2">
-          <select class="form-control"
-                  id="end_year"
-                  name="end_year">
-            {% for year in date_options.years %}
-              <option value="{{year}}">{{year}}</option>
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-
-      <div class="row mb-3">
-        <div class="offset-md-2 col-3 col-md-2 text-center">
-          Day
-        </div>
-        <div class="col-3 col-md-2 text-center">
-          Month
-        </div>
-        <div class="col-3 col-md-2 text-center">
-          Year
-        </div>
-      </div>
-
       {% include 'base_help_form_optional.html' %}
 
       {% include 'base_help_form_admin.html' %}
@@ -139,6 +47,9 @@
     var todayDay = todayDate.getDate();
     var todayMonth = todayDate.getMonth() + 1;
     var todayFullYear = todayDate.getFullYear();
+
+    var prevDayDate = new Date();
+    prevDayDate.setDate(todayDay-1);
 
     startDate.value = todayDay;
     startMonth.value = todayMonth;
@@ -176,7 +87,8 @@
           +endMonth.value - 1,
           endDate.value
       );
-      if ((chosenStartDate > chosenEndDate ) || (chosenStartDate < todayDate) || (chosenEndDate < todayDate)) {
+
+      if ((chosenStartDate > chosenEndDate ) || (chosenStartDate < prevDayDate) || (chosenEndDate < prevDayDate)) {
         submitBtn.disabled = true;
         highlightDates();
       } else {

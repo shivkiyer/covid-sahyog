@@ -22,20 +22,12 @@ def launch_app(request):
 
 def request_help(request):
     context = utils.create_help_form()
-    return render(request, 'request_help.html', context)
+    return render(request, 'help_form.html', context)
 
 
 def offer_help(request):
-    context = utils.create_help_form()
-    days = list(range(1, 32))
-    months = list(range(1, 13))
-    years = [2021, 2022]
-    context['date_options'] = {
-        'days': days,
-        'months': months,
-        'years': years
-    }
-    return render(request, 'offer_help.html', context)
+    context = utils.create_help_form(None, True)
+    return render(request, 'help_form.html', context)
 
 
 def about_us(request):
@@ -69,12 +61,11 @@ def submit_help_request(request):
         if start_date and end_date:
             new_help_request.start_date = start_date
             new_help_request.end_date = end_date
-            new_help_request.is_help_offered = True
         new_help_request.save()
         utils.create_email(new_help_request, request)
     else:
         context = utils.create_help_form(request)
-        return render(request, 'request_help.html', context)
+        return render(request, 'help_form.html', context)
 
     return redirect('confirm_submission')
 

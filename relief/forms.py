@@ -49,6 +49,7 @@ class RequestHelpForm(forms.ModelForm):
             'mobile_number',
             'email',
             'help_needed',
+            'is_help_offered',
             'state',
             'city',
             'description',

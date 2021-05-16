@@ -19,7 +19,7 @@ def read_states():
     return state_list
 
 
-def create_help_form(request=None):
+def create_help_form(request=None, is_help_offered=False):
     """
     Creates either a blank help request form or a form with errors.
     Returns - context data with list of state, choices and RequestHelpForm
@@ -28,9 +28,22 @@ def create_help_form(request=None):
     if request:
         context['request_form'] = RequestHelpForm(request.POST)
     else:
-        context['request_form'] = RequestHelpForm()
+        if is_help_offered:
+            sample_offer = RequestHelp()
+            sample_offer.is_help_offered = True
+            context['request_form'] = RequestHelpForm(instance=sample_offer)
+        else:
+            context['request_form'] = RequestHelpForm()
     context['list_of_states'] = State.objects.all().order_by('name')
     context['help_choices'] = RequestHelp.help_choices
+    days = list(range(1, 32))
+    months = list(range(1, 13))
+    years = [2021, 2022]
+    context['date_options'] = {
+        'days': days,
+        'months': months,
+        'years': years
+    }
     return context
 
 
