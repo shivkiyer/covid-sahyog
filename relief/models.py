@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
+from django.conf import settings
 
 # Create your models here.
 
@@ -11,6 +13,18 @@ class State(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RequestHelpManager(models.Manager):
+    def get_enabled(self):
+        return self.get_queryset().filter(
+            is_disabled=False
+        )
+
+    def get_verified(self):
+        return self.get_enabled().filter(
+            verified=True
+        )
 
 
 class RequestHelp(models.Model):
@@ -52,5 +66,35 @@ class RequestHelp(models.Model):
     )
     is_disabled     = models.BooleanField(default=False)
 
+    # Model manager
+    objects = RequestHelpManager()
+
+    # Ordering
+    class Meta:
+        ordering = ['-created_on']
+
     def __str__(self):
-        return self.display_name + ' in ' + self.city + ', ' + self.state.name + ' needs ' + self.help_needed
+        help_type = ' offers ' if self.is_help_offered else ' needs '
+        return self.display_name + ' in ' + self.city + ', ' + self.state.name + help_type + self.help_needed
+
+    def validation_email(self, request):
+        help_type = ' offers ' if self.is_help_offered else ' needs '
+        subject = self.display_name + ' in ' + self.city + ', ' + self.state.name + help_type + self.help_needed
+        message = 'The following request/offer has been submitted\n'
+        message += request.build_absolute_uri(reverse('edit_help', args=[self.id])) + '\n'
+        message += 'Name: ' + self.display_name + '\n'
+        message += 'Mobile: ' + str(self.mobile_number) + '\n'
+        message += 'Twitter: ' + self.twitter_handle + '\n'
+        message += 'Email: ' + self.email + '\n'
+        message += 'State: ' + self.state.name + ', City: ' + self.city + '\n'
+        message += 'Help type: ' + self.help_needed + '\n'
+        message += 'Address: ' + self.address + '\n'
+        message += 'Description: ' + self.description + '\n'
+        if self.start_date and self.end_date:
+            message += 'Between ' + str(self.start_date) + ' and ' + str(self.end_date) + '\n'
+        recipients = [settings.EMAIL_ADMIN_NOTIFICATION]
+        return {
+            'subject': subject,
+            'message': message,
+            'recipients': recipients
+        }

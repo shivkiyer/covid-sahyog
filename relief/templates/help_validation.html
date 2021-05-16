@@ -4,7 +4,7 @@
 
 <div class="container">
   <form class="my-5"
-        action="/validate_help/{{help.id}}"
+        action="/validate-help/{{help.id}}"
         method="POST">
 
     {% csrf_token %}
@@ -98,6 +98,26 @@
         {{help.help_needed}}
       </div>
     </div>
+
+    {% if help.is_help_offered %}
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>Start date:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{help.start_date}}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-12 col-md-2">
+          <label>End date:</label>
+        </div>
+        <div class="col-12 col-md-6">
+          {{help.end_date}}
+        </div>
+      </div>
+    {% endif %}
 
     {% include 'base_help_form_admin.html' %}
 

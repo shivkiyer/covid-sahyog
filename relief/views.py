@@ -4,6 +4,7 @@ from django.utils.html import escape
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import logout
 from django.db.models import Q
+from django.conf import settings
 
 from datetime import datetime
 
@@ -51,20 +52,26 @@ def submit_help_request(request):
         end_day = request.POST.get('end_day')
         end_month = request.POST.get('end_month')
         end_year = request.POST.get('end_year')
-        start_date = datetime(
-                int(start_year),
-                int(start_month),
-                int(start_day)
-            )
-        end_date = datetime(
-                int(end_year),
-                int(end_month),
-                int(end_day)
-            )
-        new_help_request.start_date = start_date
-        new_help_request.end_date = end_date
-        new_help_request.is_help_offered = True
+        start_date = None
+        end_date = None
+        if start_day and start_month and start_year:
+            start_date = datetime(
+                    int(start_year),
+                    int(start_month),
+                    int(start_day)
+                )
+        if end_day and end_month and end_year:
+            end_date = datetime(
+                    int(end_year),
+                    int(end_month),
+                    int(end_day)
+                )
+        if start_date and end_date:
+            new_help_request.start_date = start_date
+            new_help_request.end_date = end_date
+            new_help_request.is_help_offered = True
         new_help_request.save()
+        utils.create_email(new_help_request, request)
     else:
         context = utils.create_help_form(request)
         return render(request, 'request_help.html', context)
@@ -80,7 +87,10 @@ def state_list(request, slug):
     context = {}
     state_chosen = State.objects.get(slug=slug)
     context['state'] = state_chosen
-    help_in_state = state_chosen.requesthelp_set.all().order_by('-created_on')
+    if request.user.is_authenticated and request.user.is_staff:
+        help_in_state = state_chosen.requesthelp_set.all()
+    else:
+        help_in_state = state_chosen.requesthelp_set.get_verified()
     context['help_in_state'] = help_in_state
     return render(request, 'state_list.html', context)
 
@@ -103,6 +113,7 @@ def validate_help(request, help_id):
     if 'verified' in request.POST:
         if request.POST.get('verified') == 'on':
             help_obj.verified = True
+            help_obj.verified_by = request.user
     else:
         help_obj.verified = False
     if 'is_disabled' in request.POST:
@@ -134,12 +145,16 @@ def search_query(request):
     search_logic = search_logic | Q(address__icontains=search_query)
     search_logic = search_logic | Q(city__icontains=search_query)
     state = request.GET.get('state_id', '')
+    if request.user.is_authenticated and request.user.is_staff:
+        search_items = RequestHelp.objects.all()
+    else:
+        search_items = RequestHelp.objects.get_verified()
     if state:
-        search_items = RequestHelp.objects.filter(
+        search_items = search_items.filter(
             state=state
         ).filter(search_logic)
     else:
-        search_items = RequestHelp.objects.filter(search_logic)
+        search_items = search_items.filter(search_logic)
     context['help_in_state'] = search_items
     return render(request, 'state_list.html', context)
 

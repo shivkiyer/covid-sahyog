@@ -22,6 +22,14 @@ except:
     DB_PORT = os.environ.get("DB_PORT")
     DB_USER = os.environ.get("DB_USER")
     DB_PASSWORD = os.environ.get("DB_PASSWORD")
+    # Django email API
+    EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND")
+    EMAIL_HOST = os.environ.get("EMAIL_HOST")
+    EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS")
+    EMAIL_PORT = os.environ.get("EMAIL_PORT")
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+    EMAIL_ADMIN_NOTIFICATION = os.environ.get("EMAIL_ADMIN_NOTIFICATION")
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -151,3 +159,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django email API
+EMAIL_BACKEND = EMAIL_BACKEND
+EMAIL_HOST = EMAIL_HOST
+EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_PORT = EMAIL_PORT
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_ADMIN_NOTIFICATION = EMAIL_ADMIN_NOTIFICATION

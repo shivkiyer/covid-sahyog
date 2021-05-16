@@ -1,4 +1,6 @@
 from django.conf import settings
+from django.core.mail import send_mail
+
 import os
 
 from .models import State, RequestHelp
@@ -30,3 +32,15 @@ def create_help_form(request=None):
     context['list_of_states'] = State.objects.all().order_by('name')
     context['help_choices'] = RequestHelp.help_choices
     return context
+
+
+def create_email(help_obj, request):
+    email_contents = help_obj.validation_email(request)
+    send_mail(
+        email_contents['subject'],
+        email_contents['message'],
+        settings.EMAIL_HOST_USER,
+        email_contents['recipients'],
+        fail_silently = False
+    )
+    return
