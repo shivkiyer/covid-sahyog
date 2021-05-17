@@ -40,6 +40,7 @@
               {% else %}
                 needed
               {% endif %}: {{help_item.help_needed|title}}</p>
+            <p class="card-text">Between: {{help_item.start_date|date:'d-m-Y'}} and {{help_item.end_date|date:'d-m-Y'}}</p>
             <p class="card-text">{{help_item.description|linebreaks}}</p>
             <p class="card-text">{{help_item.address|linebreaks}}</p>
             <p class="card-text">Verified:
