@@ -40,6 +40,10 @@ class RequestHelpForm(forms.ModelForm):
                 required=False,
                 widget=forms.DateTimeInput(attrs={'class': 'form-control'})
             )
+    volunteers = forms.CharField(
+                required=False,
+                widget=forms.Textarea(attrs={'class': 'form-control'})
+            )
 
     class Meta:
         model = RequestHelp
@@ -56,5 +60,6 @@ class RequestHelpForm(forms.ModelForm):
             'address',
             'verified',
             'assistance_url',
-            'is_disabled'
+            'is_disabled',
+            'volunteers'
         ]

@@ -7,7 +7,7 @@
       {{request_form.assistance_url}}
     </div>
   </div>
-  
+
   <div class="row mb-3">
     <div class="col-12 col-md-2">
       <label>Verify:</label>
@@ -25,4 +25,19 @@
       {{request_form.is_disabled}}
     </div>
   </div>
+
+  <div class="row">
+    <div class="offset-md-2">
+      Separate volunteer emails by commas.
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-12 col-md-2">
+      <label>Volunteers:</label>
+    </div>
+    <div class="col-12 col-md-6">
+      {{request_form.volunteers}}
+    </div>
+  </div>
+
 {% endif %}

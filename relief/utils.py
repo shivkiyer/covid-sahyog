@@ -36,9 +36,9 @@ def create_help_form(request=None, is_help_offered=False):
             context['request_form'] = RequestHelpForm()
     context['list_of_states'] = State.objects.all().order_by('name')
     context['help_choices'] = RequestHelp.help_choices
-    days = list(range(1, 32))
-    months = list(range(1, 13))
-    years = [2021, 2022]
+    days = [str(x) for x in range(1, 32)]
+    months = [str(x) for x in range(1, 13)]
+    years = ["2021", "2022"]
     context['date_options'] = {
         'days': days,
         'months': months,
@@ -49,6 +49,9 @@ def create_help_form(request=None, is_help_offered=False):
 
 def create_email(help_obj, request):
     email_contents = help_obj.validation_email(request)
+    if help_obj.verified:
+        volunteer_emails = [x.strip() for x in help_obj.volunteers.split(',')]
+        email_contents['recipients'].extend(volunteer_emails)
     send_mail(
         email_contents['subject'],
         email_contents['message'],

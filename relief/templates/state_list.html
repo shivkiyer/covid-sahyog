@@ -12,56 +12,7 @@
 
       {% for help_item in help_in_state %}
 
-        <div class="card my-3">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-9">
-                <h5 class="card-title">{{help_item.display_name}}</h5>
-                <p>{{help_item.created_on}}</p>
-              </div>
-              <div class="col-2">
-                {% if request.user.is_authenticated and request.user.is_staff %}
-                  <a href="/edit-help/{{help_item.id}}"
-                      class="btn btn-primary">
-                      Edit
-                  </a>
-                {% endif %}
-              </div>
-            </div>
-
-            <p class="card-text">Mobile: {{help_item.mobile_number}}
-              {% if help_item.email %}, Email: {{help_item.email}}{% endif %}
-              {% if help_item.twitter_handle %}, Twitter: {{help_item.twitter_handle}}{% endif %}
-            </p>
-            <p class="card-text">State: {{help_item.state}}, City: {{help_item.city}}</p>
-            <p class="card-text">Help
-              {% if help_item.is_help_offered %}
-                offered
-              {% else %}
-                needed
-              {% endif %}: {{help_item.help_needed|title}}</p>
-            <p class="card-text">Between: {{help_item.start_date|date:'d-m-Y'}} and {{help_item.end_date|date:'d-m-Y'}}</p>
-            <p class="card-text">{{help_item.description|linebreaks}}</p>
-            <p class="card-text">{{help_item.address|linebreaks}}</p>
-            <p class="card-text">Verified:
-              {% if help_item.verified %}
-                Verified by {{help_item.verified_by.get_full_name}}
-                on {{help_item.verified_on}}
-              {% else %}
-                Not verified
-              {% endif %}
-            </p>
-            {% if request.user.is_authenticated and request.user.is_staff %}
-            <p class="card-text">Disabled:
-              {% if help_item.is_disabled %}
-                Yes
-              {% else %}
-                No
-              {% endif %}
-            </p>
-            {% endif %}
-          </div>
-        </div>
+        {% include 'base_help_view.html' %}
 
       {% endfor %}
 

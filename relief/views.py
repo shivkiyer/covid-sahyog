@@ -85,6 +85,16 @@ def state_list(request, slug):
     context['help_in_state'] = help_in_state
     return render(request, 'state_list.html', context)
 
+
+def view_help(request, help_id):
+    context = {}
+    help_obj = RequestHelp.objects.get(id=help_id)
+    if help_obj.is_disabled and (not request.user.is_staff):
+        return redirect('home_page')
+    context['help_item'] = help_obj
+    return render(request, 'help_view.html', context)
+
+
 @user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def edit_help(request, help_id):
     context = {}
@@ -112,9 +122,13 @@ def validate_help(request, help_id):
             help_obj.is_disabled = True
     else:
         help_obj.is_disabled = False
+    if 'volunteers' in request.POST:
+        volunteers = request.POST.get('volunteers')
+        help_obj.volunteers = volunteers
 
     help_obj.save()
     context['help_id'] = help_obj.id
+    utils.create_email(help_obj, request)
 
     return render(request, 'validation_confirmation.html', context)
 

@@ -93,7 +93,16 @@
             id="start_day"
             name="start_day">
       {% for day in date_options.days %}
-        <option value="{{day}}">{{day}}</option>
+        {% if day == request.POST.start_day %}
+          <option value="{{day}}"
+                  selected="selected">
+                  {{day}}
+          </option>
+        {% else %}
+          <option value="{{day}}">
+                  {{day}}
+          </option>
+        {% endif %}
       {% endfor %}
     </select>
   </div>
@@ -102,7 +111,16 @@
             id="start_month"
             name="start_month">
       {% for month in date_options.months %}
-        <option value="{{month}}">{{month}}</option>
+        {% if month == request.POST.start_month %}
+          <option value="{{month}}"
+                  selected="selected">
+                  {{month}}
+          </option>
+        {% else %}
+          <option value="{{month}}">
+                  {{month}}
+          </option>
+        {% endif %}
       {% endfor %}
     </select>
   </div>
@@ -111,7 +129,16 @@
             id="start_year"
             name="start_year">
       {% for year in date_options.years %}
-        <option value="{{year}}">{{year}}</option>
+        {% if year == request.POST.start_year %}
+          <option value="{{year}}"
+                  selected="selected">
+                  {{year}}
+          </option>
+        {% else %}
+          <option value="{{year}}">
+                  {{year}}
+          </option>
+        {% endif %}
       {% endfor %}
     </select>
   </div>
@@ -139,7 +166,16 @@
             id="end_day"
             name="end_day">
       {% for day in date_options.days %}
-        <option value="{{day}}">{{day}}</option>
+        {% if day == request.POST.end_day %}
+          <option value="{{day}}"
+                  selected="selected">
+                  {{day}}
+          </option>
+        {% else %}
+          <option value="{{day}}">
+                  {{day}}
+          </option>
+        {% endif %}
       {% endfor %}
     </select>
   </div>
@@ -148,7 +184,16 @@
             id="end_month"
             name="end_month">
       {% for month in date_options.months %}
-        <option value="{{month}}">{{month}}</option>
+        {% if month == request.POST.end_month %}
+          <option value="{{month}}"
+                  selected="selected">
+                  {{month}}
+          </option>
+        {% else %}
+          <option value="{{month}}">
+                  {{month}}
+          </option>
+        {% endif %}
       {% endfor %}
     </select>
   </div>
@@ -157,7 +202,16 @@
             id="end_year"
             name="end_year">
       {% for year in date_options.years %}
-        <option value="{{year}}">{{year}}</option>
+        {% if year == request.POST.end_year %}
+          <option value="{{year}}"
+                  selected="selected">
+                  {{year}}
+          </option>
+        {% else %}
+          <option value="{{year}}">
+                  {{year}}
+          </option>
+        {% endif %}
       {% endfor %}
     </select>
   </div>

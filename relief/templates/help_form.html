@@ -51,12 +51,24 @@
     var prevDayDate = new Date();
     prevDayDate.setDate(todayDay-1);
 
-    startDate.value = todayDay;
-    startMonth.value = todayMonth;
-    startYear.value = todayFullYear;
-    endDate.value = todayDay;
-    endMonth.value = todayMonth;
-    endYear.value = todayFullYear;
+    if (startDate.value < todayDay) {
+      startDate.value = todayDay;
+    }
+    if (startMonth.value < todayMonth) {
+      startMonth.value = todayMonth;
+    }
+    if (startYear.value < todayFullYear) {
+      startYear.value = todayFullYear;
+    }
+    if (endDate.value < todayDay) {
+      endDate.value = todayDay;
+    }
+    if (endMonth.value < todayMonth) {
+      endMonth.value = todayMonth;
+    }
+    if (endYear.value < todayFullYear) {
+      endYear.value = todayFullYear;
+    }
 
     function highlightDates() {
       startDate.style.border = '1px solid red';

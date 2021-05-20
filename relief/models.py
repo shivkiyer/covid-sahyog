@@ -65,6 +65,7 @@ class RequestHelp(models.Model):
         null=True
     )
     is_disabled     = models.BooleanField(default=False)
+    volunteers      = models.TextField(blank=True, null=True)
 
     # Model manager
     objects = RequestHelpManager()
@@ -80,7 +81,10 @@ class RequestHelp(models.Model):
     def validation_email(self, request):
         help_type = ' offers ' if self.is_help_offered else ' needs '
         subject = self.display_name + ' in ' + self.city + ', ' + self.state.name + help_type + self.help_needed
-        message = 'The following request/offer has been submitted\n'
+        message = ''
+        if self.is_disabled:
+            message += 'THIS REQUEST/OFFER HAS BEEN DISABLED BY ADMIN. \n \n'
+        message += 'The following request/offer has been submitted/updated: \n'
         message += request.build_absolute_uri(reverse('edit_help', args=[self.id])) + '\n'
         message += 'Name: ' + self.display_name + '\n'
         message += 'Mobile: ' + str(self.mobile_number) + '\n'
@@ -93,6 +97,9 @@ class RequestHelp(models.Model):
         if self.start_date and self.end_date:
             message += 'Between ' + str(self.start_date) + ' and ' + str(self.end_date) + '\n'
         recipients = [settings.EMAIL_ADMIN_NOTIFICATION]
+        if self.assistance_url:
+            message += 'Donation link: ' + self.assistance_url + '\n'
+
         return {
             'subject': subject,
             'message': message,
