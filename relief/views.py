@@ -95,9 +95,10 @@ def view_help(request, help_id):
     return render(request, 'help_view.html', context)
 
 
-@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def edit_help(request, help_id):
     context = {}
+    if not request.user.is_staff:
+        return redirect('/view-help/' + str(help_id))
     help_obj = RequestHelp.objects.get(id=help_id)
     help_form = RequestHelpForm(instance=help_obj)
     context['help'] = help_obj
