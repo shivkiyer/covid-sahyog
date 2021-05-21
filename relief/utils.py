@@ -49,9 +49,8 @@ def create_help_form(request=None, is_help_offered=False):
 
 def create_email(help_obj, request):
     email_contents = help_obj.validation_email(request)
-    if help_obj.verified:
-        volunteer_emails = [x.strip() for x in help_obj.volunteers.split(',')]
-        email_contents['recipients'].extend(volunteer_emails)
+    volunteer_emails = [x.strip() for x in help_obj.volunteers.split(',')]
+    email_contents['recipients'].extend(volunteer_emails)
     send_mail(
         email_contents['subject'],
         email_contents['message'],
