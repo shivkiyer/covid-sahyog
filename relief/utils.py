@@ -14,7 +14,6 @@ def read_states():
     file_path = os.path.join(settings.BASE_DIR, 'data', 'states.txt')
     file_obj = open(file_path, 'r')
     state_list = [state.strip() for state in file_obj if len(state.strip())>0]
-    print(state_list)
 
     return state_list
 

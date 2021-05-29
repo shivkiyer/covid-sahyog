@@ -166,11 +166,13 @@ def search_query(request):
 
 
 # Method to create states.
+@user_passes_test(lambda u: u.is_staff, login_url='/admin/')
 def populate_db(request):
-    State.objects.all().delete()
     list_of_states = utils.read_states()
     for state_item in list_of_states:
         if state_item:
-            state_slug = ''.join(state_item.lower().split())
-            State.objects.create(name=state_item, slug=state_slug)
+            is_state_in_db = State.objects.filter(name=state_item)
+            if not is_state_in_db.exists():
+                state_slug = ''.join(state_item.lower().split())
+                State.objects.create(name=state_item, slug=state_slug)
     return HttpResponse('Populated')
